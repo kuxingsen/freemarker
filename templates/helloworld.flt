@@ -1,0 +1,119 @@
+Hello ${user}
+----------------------------------
+测试if语句
+<#if user == "lisi">
+    I am finding zhangsan!
+</#if>
+----------------------------------
+测试if-else语句
+    他考试<#if grade gte 60>及格啦！<#else >不及格！</#if>
+----------------------------------
+测试elseif语句
+    而且<#if grade gte 90>还是高分飘过呢！<#elseif grade gte 60>差点挂了！<#elseif grade gte 50>是59分！<#elseif grade gte 0>是稳稳挂的！</#if>
+
+----------------------------------
+测试include语句
+<#include "included.flt"/>
+----------------------------------
+测试自定义指令macro
+<#macro m1>
+    <b>aaaabbbbccc</b>
+    <b>dddeeefff</b>
+</#macro>
+定义带参的宏
+<#macro m2 a b c>
+    ${a} --- ${b} --- ${c}
+</#macro>
+调用宏：
+<@m1/><@m1/><@m1/><@m1/>
+<@m2 a='1' b=2 c=3.3/>
+---------------------------------
+测试nested指令，将标签体内容传入
+<#macro border>
+    <table border="4" cellpadding="4" cellspacing="0">
+        <tr>
+            <td>
+                <#nested>
+            </td>
+        </tr>
+    </table>
+</#macro>
+
+<@border>
+    你好${user}
+</@border>
+------------------------------
+定义变量assign
+<#assign a = "sss">
+<#assign aa=true>
+${a}
+改变量值
+<#if aa >
+    <#assign a="aaa">
+</#if>
+${a}
+------------------------------
+命名空间引入import
+<#import "import.flt" as import>
+${import.a}
+<@import.bb/>
+<#assign a="import bbb" in import>
+${import.a}
+------------------------------
+数据类型
+date ?string 直接格式化
+${date1?string("yyyy-MM-dd")}
+javabean 同el表达式,类型自动转化
+------------------------------
+表
+将"wangwu:82"加入列表
+<#assign map=map+{"wangwu":82}>
+张三：${map.zhangsan}岁
+李四：${map["lisi"]}岁
+王五：${map["wangwu"]}岁
+------------------------------
+列表
+<#--${lst+["fff"]}-->
+将"fff"加入列表
+<#assign lst=lst+["fff"]>
+<#list lst as person>
+<b>${person}</b>
+</#list>
+------------------------------
+集合
+将3,4加入集合
+<#assign set=set+[3,4]>
+set[n..m] 表示原集合从n到m的子集
+n..m表示从n到m的序列
+${set[3]}
+${set[1..2][0]}
+----------------------------------
+字符串
+以下两种方式等效
+${"hello ${user}"}
+${"hello "+user}
+截取子串
+<#assign num="0123456">
+${num[0]}
+${num[0..3]}
+---------------------------------
+>  即gt
+>= 即gte
+< 即it
+<= 即ite
+---------------------------------
+测试内置函数
+html 将字符串转成html显示的代码
+${html2?html}
+cap_first 首字母大写
+lower_case 全部小写
+upper_case 全部大写
+--------------------------------
+空值处理
+<#--${fsads} 没定义的变量，会报异常-->
+${fasd!} 没定义时默认为空字符串
+${fasd!"fasd"} 没定义时默认为"fasd"
+??判断变量是否存在
+<#if user??>
+    welcome ${user}
+</#if>

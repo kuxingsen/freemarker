@@ -1,0 +1,4 @@
+<#assign a = "import aaa">
+<#macro bb >
+    <p>Copyright</p>
+</#macro>
